@@ -64,3 +64,7 @@ state.pillars = {
 ❌ Custom pillar names or additions
 ❌ Export of pillar data
 ❌ Analytics or historical views
+
+## Module Loading (GitHub Pages Compatibility)
+
+**Critical for GitHub Pages deployment:** Ensure the pillar render function is invoked immediately after `DOMContentLoaded` fires in `app.js`. Use relative import paths `./src/pillars.js` (from /public directory root) rather than `../src/pillars.js` to ensure modules load correctly when /public is deployed as the site root.
