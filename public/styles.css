@@ -294,3 +294,25 @@ button:disabled:hover {
   background: rgba(34, 197, 94, 0.15); /* Green with low opacity */
   color: var(--success);
 }}
+
+/* ===== PILLAR ROWS (STEP 3) ===== */
+.pillar-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.pillar-row input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.pillar-row label {
+  cursor: pointer;
+  flex: 1;
+}
+
+.pillar-row.completed label {
+  color: var(--text-secondary);
+}
