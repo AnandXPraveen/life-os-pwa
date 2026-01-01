@@ -5,6 +5,7 @@
  */
 
 console.log('Life OS PWA loaded');
+import { getMatadorState, getMatadorClass, getMatadorText } from './src/matador.js';
 
 // Cache clearing on demand
 if (new URLSearchParams(window.location.search).get('clearCache') === 'true') {
