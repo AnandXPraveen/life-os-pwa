@@ -5,6 +5,7 @@
  */
 
 import { getMatadorState } from '../src/matador.js';
+import { getPillarState, updatePillarState, getPillarList } from '../src/pillars.js';
 
 console.log('Life OS PWA loaded');
 
@@ -96,6 +97,28 @@ init() {
         phaseBadge.classList.remove('matador-deficit', 'matador-maintenance');
       }
     }
+
+          // Render pillars with checkboxes
+      const pillarsSection = document.getElementById('pillars-section');
+      if (pillarsSection) {
+        const state = getPillarState();
+        const html = getPillarList().map(pillar => `
+          <div class="pillar-row ${state[pillar] ? 'completed' : ''}">
+            <input type="checkbox" class="pillar-checkbox" data-pillar="${pillar}" ${state[pillar] ? 'checked' : ''}>
+            <label>${pillar}</label>
+          </div>
+        `).join('');
+        pillarsSection.innerHTML = html;
+        
+        // Add event listeners for checkbox toggles
+        pillarsSection.querySelectorAll('.pillar-checkbox').forEach(checkbox => {
+          checkbox.addEventListener('change', (e) => {
+            const pillar = e.target.dataset.pillar;
+            updatePillarState(new Date().toISOString().slice(0, 10), pillar, e.target.checked);
+            e.target.parentElement.classList.toggle('completed');
+          });
+        });
+      }
   }
 };
 
