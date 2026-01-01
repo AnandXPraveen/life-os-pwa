@@ -114,6 +114,35 @@ git push origin main
 # GitHub Pages rebuilds automatically
 ```
 
+## Module Script Loading Fix
+
+### Problem Identified
+
+After deploying the app to GitHub Pages, ES6 modules were not loading correctly because the app.js script tag was missing the `type="module"` attribute. This prevented the application from initializing.
+
+### Solution Applied
+
+Updated `index.html` line 17 to include the `type="module"` attribute:
+
+**Before:**
+```html
+<script src="app.js"></script>
+```
+
+**After:**
+```html
+<script src="app.js" type="module"></script>
+```
+
+This ensures that:
+- ES6 module syntax in app.js and imported modules (src/*.js) is properly recognized
+- The browser automatically enables strict mode for module context
+- Module imports/exports work correctly without errors
+
+### Verification
+
+App loads successfully at https://anandxpraveen.github.io/life-os-pwa/ without errors.
+
 ## Conclusion
 
 The decision to migrate all app files to root level resolved the GitHub Pages folder selection limitation while maintaining clean architecture. The /public folder is now legacy and can be retained for reference or deleted for cleanliness.
