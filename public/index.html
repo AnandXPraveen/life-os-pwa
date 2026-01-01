@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Life OS PWA</title>
+    <script>
+    // Inline cache clearing for instant effect
+    if (new URLSearchParams(window.location.search).get('clearCache') === 'true') {
+      // Unregister and clear caches immediately
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(reg => reg.unregister()));
+      }
+      caches.keys().then(names => names.forEach(name => caches.delete(name)));
+      // Redirect to clean URL after clearing
+      setTimeout(() => { window.location.href = window.location.pathname; }, 500);
+    }
+  </script>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="styles.css">
 </head>
