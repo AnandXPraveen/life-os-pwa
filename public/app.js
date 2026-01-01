@@ -1,45 +1,51 @@
-// Life OS PWA - Main App
+/**
+ * Life OS PWA - Main App
+ * STEP 1: UI Structure Lock
+ * Initialization and DOM management
+ */
 
 console.log('Life OS PWA loaded');
 
+// Register Service Worker for offline support
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(err => {
-    console.log('SW registration failed:', err);
+    console.log('Service Worker registration failed:', err);
   });
 }
 
+// App initialization
 const app = {
   init() {
     console.log('App initialized');
-    this.renderUI();
+    this.setupElements();
   },
   
-  renderUI() {
-    const appContainer = document.getElementById('app');
-    if (!appContainer) {
-      console.error('App container not found');
-      return;
+  setupElements() {
+    // Update metadata elements
+    const weekDay = document.getElementById('week-day');
+    const phaseBadge = document.getElementById('phase-badge');
+    
+    if (weekDay) {
+      // Placeholder: Will be wired to calendar logic later
+      weekDay.textContent = 'Week X · Day Y';
     }
     
-    appContainer.innerHTML = `
-      <div style="padding: 20px; font-family: system-ui, -apple-system, sans-serif;">
-        <h1>Life OS PWA</h1>
-        <p>App initialized successfully.</p>
-        <nav style="margin-top: 20px;">
-          <ul style="list-style: none; padding: 0;">
-            <li><a href="ui.html">Dashboard</a></li>
-            <li><a href="decisions.html">Weekly Decisions</a></li>
-            <li><a href="pillars.html">Life Pillars</a></li>
-            <li><a href="pdf-reference.html">PDF Reference</a></li>
-          </ul>
-        </nav>
-      </div>
-    `;
+    if (phaseBadge) {
+      // Placeholder: Will be wired to lifecycle logic later
+      phaseBadge.textContent = 'Phase';
+    }
   }
 };
 
+// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   app.init();
 });
 
-app.init();
+// Also init immediately in case DOM is already loaded
+if (document.readyState === 'loading') {
+  // Document is still loading
+} else {
+  // DOM is already ready
+  app.init();
+}
