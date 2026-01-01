@@ -35,11 +35,42 @@ if ('serviceWorker' in navigator) {
 
 // App initialization
 const app = {
-  init() {
-    console.log('App initialized');
-    this.setupElements();
-  },
-  
+init() {
+    const DEBUG_BOOT = false;
+
+    if (DEBUG_BOOT) {
+      console.log('App initialized');
+      this.setupElements();
+      return;
+    }
+
+    // Render locked UI shell
+    const app = document.getElementById('app');
+    app.innerHTML = `
+      <header id="app-header">
+        <div class="title">Life OS</div>
+        <div class="meta">
+          <span id="week-day">Week X · Day Y</span>
+          <span id="phase-badge">Phase</span>
+        </div>
+      </header>
+
+      <main id="app-main">
+        <section id="today-section">
+          <h2>Today</h2>
+        </section>
+
+        <section id="pillars-section">
+          <h2>Pillars</h2>
+        </section>
+      </main>
+
+      <footer id="app-footer">
+        <button id="export-btn">Export</button>
+        <button id="settings-btn">Settings</button>
+      </footer>
+    `;
+  }
   setupElements() {
     // Update metadata elements
     const weekDay = document.getElementById('week-day');
