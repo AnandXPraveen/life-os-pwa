@@ -3,9 +3,8 @@
  * STEP 1: UI Structure Lock
  * Initialization and DOM management
  */
-
-import { getMatadorState } from '../src/matador.js';
-import { getPillarState, updatePillarState, getPillarList } from '../src/pillars.js';
+import { getMatadorState } from './src/matador.js';
+import { getPillarState, updatePillarState, getPillarList } from './src/pillars.js';
 
 console.log('Life OS PWA loaded');
 
@@ -18,6 +17,7 @@ if (new URLSearchParams(window.location.search).get('clearCache') === 'true') {
       console.log('Service Worker unregistered');
     });
   }
+
   // Clear all caches
   caches.keys().then(cacheNames => {
     cacheNames.forEach(cacheName => {
@@ -25,6 +25,7 @@ if (new URLSearchParams(window.location.search).get('clearCache') === 'true') {
       console.log('Cache cleared:', cacheName);
     });
   });
+
   // Redirect to clean URL
   window.location.href = window.location.href.split('?')[0];
 }
@@ -38,7 +39,7 @@ if ('serviceWorker' in navigator) {
 
 // App initialization
 const app = {
-init() {
+  init() {
     const DEBUG_BOOT = false;
 
     if (DEBUG_BOOT) {
@@ -74,20 +75,22 @@ init() {
       </footer>
     `;
   }
+
   setupElements() {
     // Update metadata elements
     const weekDay = document.getElementById('week-day');
     const phaseBadge = document.getElementById('phase-badge');
-    
+
     if (weekDay) {
       // Placeholder: Will be wired to calendar logic later
       weekDay.textContent = 'Week X · Day Y';
     }
-    
+
     if (phaseBadge) {
       // Placeholder: Will be wired to lifecycle logic later
-            // Get MATADOR state and update badge with styling
-            const matadorState = getMatadorState('Phase 4', 2); // Placeholder: week = 2
+      // Get MATADOR state and update badge with styling
+      const matadorState = getMatadorState('Phase 4', 2); // Placeholder: week = 2
+
       if (matadorState.active) {
         phaseBadge.textContent = `MATADOR: ${matadorState.mode.toUpperCase()}`;
         phaseBadge.classList.remove('matador-deficit', 'matador-maintenance');
@@ -98,27 +101,29 @@ init() {
       }
     }
 
-          // Render pillars with checkboxes
-      const pillarsSection = document.getElementById('pillars-section');
-      if (pillarsSection) {
-        const state = getPillarState();
-        const html = getPillarList().map(pillar => `
-          <div class="pillar-row ${state[pillar] ? 'completed' : ''}">
-            <input type="checkbox" class="pillar-checkbox" data-pillar="${pillar}" ${state[pillar] ? 'checked' : ''}>
-            <label>${pillar}</label>
-          </div>
-        `).join('');
-        pillarsSection.innerHTML = html;
-        
-        // Add event listeners for checkbox toggles
-        pillarsSection.querySelectorAll('.pillar-checkbox').forEach(checkbox => {
-          checkbox.addEventListener('change', (e) => {
-            const pillar = e.target.dataset.pillar;
-            updatePillarState(new Date().toISOString().slice(0, 10), pillar, e.target.checked);
-            e.target.parentElement.classList.toggle('completed');
-          });
+    // Render pillars with checkboxes
+    const pillarsSection = document.getElementById('pillars-section');
+    if (pillarsSection) {
+      const state = getPillarState();
+      const html = getPillarList().map(pillar => `
+        <div class="pillar-row ${state[pillar] ? 'completed' : ''}">
+          <input type="checkbox" class="pillar-checkbox" data-pillar="${pillar}" ${state[pillar] ? 'checked' : ''}>
+          <label>${pillar}</label>
+        </div>
+      `).join('');
+      pillarsSection.innerHTML = html;
+
+      // Add event listeners for checkbox toggles
+      pillarsSection.querySelectorAll('.pillar-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', (e) => {
+          const pillar = e.target.dataset.pillar;
+          updatePillarState(new Date().toISOString().slice(0, 10), pillar, e.target.checked);
+          e.target.parentElement.classList.toggle('completed');
         });
-      }
+      });
+    }
+
+    console.log('Pillars rendered');
   }
 };
 
