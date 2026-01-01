@@ -1,0 +1,10 @@
+{
+  "name": "Life OS PWA",
+  "short_name": "Life OS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "scope": "/"
+}
