@@ -4,7 +4,7 @@
  * Caches static files and PDF assets on installation
  */
 
-const CACHE_NAME = 'life-os-v3v4'
+const CACHE_NAME ='life-os-v4';
 const ASSETS_TO_CACHE = [
   // HTML
   '/',
