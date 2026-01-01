@@ -6,6 +6,7 @@
 
 console.log('Life OS PWA loaded');
 import { getMatadorState, getMatadorClass, getMatadorText } from './src/matador.js';
+import { getPillarState, updatePillarState, getPillarList } from './src/pillars.js';
 
 // Cache clearing on demand
 if (new URLSearchParams(window.location.search).get('clearCache') === 'true') {
@@ -94,6 +95,45 @@ document.addEventListener('DOMContentLoaded', () => {
       <button id="settings-btn">Settings</button>
     </footer>
   `;
+
+    // Load pillars section
+  const pillarsSection = document.getElementById('pillars-section');
+  const pillarsContainer = document.createElement('div');
+  pillarsContainer.className = 'pillars-grid';
+  
+  const pillarState = getPillarState();
+  const pillarList = getPillarList();
+  
+  pillarList.forEach(pillarName => {
+    const pillarCard = document.createElement('div');
+    pillarCard.className = 'pillar-card';
+    pillarCard.innerHTML = `
+      <div class="pillar-header">
+        <div class="pillar-name">${pillarName}</div>
+      </div>
+      <div class="pillar-content">
+        <input type="checkbox" class="pillar-check" data-pillar="${pillarName}" ${pillarState[pillarName] ? 'checked' : ''}>
+        <span>Completed</span>
+      </div>
+    `;
+    pillarsContainer.appendChild(pillarCard);
+  });
+  
+  // Clear existing content and add new
+  const heading = pillarsSection.querySelector('h2');
+  pillarsSection.innerHTML = '';
+  pillarsSection.appendChild(heading);
+  pillarsSection.appendChild(pillarsContainer);
+  
+  // Add event listeners for pillar checkboxes
+  document.querySelectorAll('.pillar-check').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const pillarName = this.getAttribute('data-pillar');
+      const isChecked = this.checked;
+      updatePillarState(new Date().toISOString().slice(0, 10), pillarName, isChecked);
+      console.log(`${pillarName} marked as ${isChecked ? 'complete' : 'incomplete'}`);
+    });
+  });
 });
 
 // Also init immediately in case DOM is already loaded
