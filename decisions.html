@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Life OS - Weekly Decisions</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      padding: 16px;
+    }
+    .container { max-width: 480px; margin: 0 auto; }
+    .screen { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .screen-title { font-size: 18px; font-weight: bold; margin-bottom: 16px; color: #1a1a1a; }
+    .status-badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 16px; }
+    .status-green { background: #c6f6d5; color: #22543d; }
+    .status-yellow { background: #feebc8; color: #7c2d12; }
+    .status-red { background: #fed7d7; color: #742a2a; }
+    .info-section { margin-bottom: 16px; padding: 12px; background: #f9f9f9; border-radius: 8px; }
+    .info-label { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .info-value { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+    .pillar-flags { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+    .pillar-item { padding: 8px; background: white; border-radius: 6px; border: 1px solid #e0e0e0; }
+    .pillar-name { font-size: 12px; color: #666; }
+    .pillar-flags-count { font-size: 14px; font-weight: bold; color: #1a1a1a; margin-top: 4px; }
+    .decision-section { margin-top: 20px; border-top: 1px solid #eee; padding-top: 16px; }
+    .decision-label { font-size: 13px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin: 12px 0 8px 0; font-weight: 600; }
+    .decision-options { display: flex; flex-direction: column; gap: 8px; }
+    .option-btn { padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; background: white; cursor: pointer; text-align: left; transition: all 0.2s; }
+    .option-btn:hover { border-color: #007AFF; background: #f0f7ff; }
+    .option-btn.selected { border-color: #007AFF; background: #e7f3ff; }
+    .option-text { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+    .option-desc { font-size: 12px; color: #999; margin-top: 4px; }
+    .submit-btn { width: 100%; padding: 14px; background: #007AFF; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; }
+    .submit-btn:hover { background: #0056b3; }
+    .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .warning-banner { padding: 12px; background: #fff5cc; border-left: 4px solid #ff9800; margin-bottom: 16px; border-radius: 4px; }
+    .warning-text { font-size: 13px; color: #7c4600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- DECISION SCREEN -->
+    <div class="screen">
+      <div class="screen-title">Weekly Decisions</div>
+      
+      <!-- Status Overview -->
+      <div class="info-section">
+        <div class="info-label">Week Status</div>
+        <div id="overallStatus" class="status-badge status-green">ALL GREEN</div>
+        <div class="info-value">Week 8 • PHASE 2 BUILD</div>
+      </div>
+
+      <!-- Pillar Status with Flags -->
+      <div class="info-section">
+        <div class="info-label">Pillar Status</div>
+        <div class="pillar-flags">
+          <div class="pillar-item">
+            <div class="pillar-name">Health</div>
+            <div class="pillar-flags-count" id="healthStatus">0 flags</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-name">Mind</div>
+            <div class="pillar-flags-count" id="mindStatus">0 flags</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-name">Strength</div>
+            <div class="pillar-flags-count" id="strengthStatus">0 flags</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-name">Endurance</div>
+            <div class="pillar-flags-count" id="enduranceStatus">0 flags</div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-name">Consistency</div>
+            <div class="pillar-flags-count" id="consistencyStatus">0 flags</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Warning if RED -->
+      <div id="warningBanner" class="warning-banner" style="display:none;">
+        <div class="warning-text">⚠️ Critical status detected. Focus on Health & Recovery in this week\'s decisions.</div>
+      </div>
+
+      <!-- MATADOR Info if applicable -->
+      <div id="matadorInfo" class="info-section" style="display:none;">
+        <div class="info-label">MATADOR Phase</div>
+        <div class="info-value" id="matadorPhase">DEFICIT (Fat Loss)</div>
+      </div>
+
+      <!-- Decision Section -->
+      <div class="decision-section">
+        <div class="decision-label">🏋️ Training Decision (Required)</div>
+        <div class="decision-options">
+          <button class="option-btn" onclick="selectOption('training', 'strength')">
+            <div class="option-text">💪 Strength Focus</div>
+            <div class="option-desc">Heavy lifts, lower reps, recovery emphasis</div>
+          </button>
+          <button class="option-btn" onclick="selectOption('training', 'endurance')">
+            <div class="option-text">🏃 Endurance Focus</div>
+            <div class="option-desc">Cardio, circuits, metabolic conditioning</div>
+          </button>
+          <button class="option-btn" onclick="selectOption('training', 'hybrid')">
+            <div class="option-text">⚡ Hybrid</div>
+            <div class="option-desc">Balanced approach, mixed intensity</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="decision-section">
+        <div class="decision-label">🍽️ Nutrition Decision (Required)</div>
+        <div class="decision-options">
+          <button class="option-btn" onclick="selectOption('nutrition', 'surplus')">
+            <div class="option-text">📈 Calorie Surplus</div>
+            <div class="option-desc">Focus on muscle gain, higher carbs</div>
+          </button>
+          <button class="option-btn" onclick="selectOption('nutrition', 'maintenance')">
+            <div class="option-text">➖ Maintenance</div>
+            <div class="option-desc">Balance, stabilization, reset</div>
+          </button>
+          <button class="option-btn" onclick="selectOption('nutrition', 'deficit')">
+            <div class="option-text">📉 Calorie Deficit</div>
+            <div class="option-desc">Focus on fat loss, lean gains</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="decision-section">
+        <div class="decision-label">🧠 Optional: Mind & Other Pillars</div>
+        <div class="decision-options">
+          <button class="option-btn" onclick="selectOption('optional', 'focus')">
+            <div class="option-text">Focus Boost</div>
+            <div class="option-desc">Mental clarity, meditation, routine</div>
+          </button>
+          <button class="option-btn" onclick="selectOption('optional', 'recovery')">
+            <div class="option-text">Recovery Focus</div>
+            <div class="option-desc">Sleep, stretching, deload week</div>
+          </button>
+          <button class="option-btn" onclick="selectOption('optional', 'balanced')">
+            <div class="option-text">Balanced</div>
+            <div class="option-desc">No changes, continue current</div>
+          </button>
+        </div>
+      </div>
+
+      <button class="submit-btn" id="submitBtn" onclick="submitDecisions()">Save Weekly Decisions</button>
+    </div>
+  </div>
+
+  <script>
+    const selections = {};
+
+    function selectOption(category, option) {
+      selections[category] = option;
+      // Update UI - highlight selected
+      document.querySelectorAll(`button[onclick*="${category}"]`).forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      event.target.closest('.option-btn').classList.add('selected');
+      
+      // Enable/disable submit based on required selections
+      updateSubmitButton();
+    }
+
+    function updateSubmitButton() {
+      const hasTraining = selections.training !== undefined;
+      const hasNutrition = selections.nutrition !== undefined;
+      const canSubmit = hasTraining && hasNutrition;
+      document.getElementById('submitBtn').disabled = !canSubmit;
+    }
+
+    function submitDecisions() {
+      const decision = {
+        weekNumber: 8,
+        phase: 'BUILD',
+        training: selections.training,
+        nutrition: selections.nutrition,
+        optional: selections.optional || null,
+        timestamp: new Date().toISOString()
+      };
+      console.log('Decision submitted:', decision);
+      alert('Weekly decisions saved!');
+    }
+
+    // Initialize with example data
+    function initializeScreen() {
+      // Mock pillar flags
+      const flags = {
+        'Health': 0,
+        'Mind': 1,
+        'Strength': 0,
+        'Endurance': 1,
+        'Consistency': 0
+      };
+      
+      // Update pillar displays
+      Object.entries(flags).forEach(([pillar, count]) => {
+        const elementId = pillar.toLowerCase() + 'Status';
+        document.getElementById(elementId).textContent = `${count} flag${count !== 1 ? 's' : ''}`;
+      });
+      
+      // Update overall status
+      const maxFlags = Math.max(...Object.values(flags));
+      let statusClass = 'status-green';
+      let statusText = 'ALL GREEN';
+      if (maxFlags >= 3) {
+        statusClass = 'status-red';
+        statusText = 'CRITICAL';
+        document.getElementById('warningBanner').style.display = 'block';
+      } else if (maxFlags >= 1) {
+        statusClass = 'status-yellow';
+        statusText = 'CAUTION';
+      }
+      const badge = document.getElementById('overallStatus');
+      badge.textContent = statusText;
+      badge.className = 'status-badge ' + statusClass;
+    }
+
+    initializeScreen();
+  </script>
+</body>
+</html>
