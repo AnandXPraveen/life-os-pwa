@@ -213,4 +213,13 @@ For issues, bugs, or feature requests, please create an issue in the GitHub repo
 
 ---
 
+## 📝 Recent Updates
+
+### File Consolidation (Latest)
+As of the latest commits, all deployment files have been consolidated from the `/public` folder to the root directory. This includes:
+- HTML interface files (decisions.html, pdf-reference.html, pillars.html, ui.html)
+- Asset references for deployment
+
+For full details on this consolidation, see [File Consolidation Documentation](docs/25_file_consolidation.md).
+
 **Built with ❤️ for holistic life management**
