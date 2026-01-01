@@ -4,6 +4,8 @@
  * Initialization and DOM management
  */
 
+import { getMatadorState } from '../src/matador.js';
+
 console.log('Life OS PWA loaded');
 
 // Cache clearing on demand
@@ -83,7 +85,16 @@ init() {
     
     if (phaseBadge) {
       // Placeholder: Will be wired to lifecycle logic later
-      phaseBadge.textContent = 'Phase';
+            // Get MATADOR state and update badge with styling
+            const matadorState = getMatadorState('Phase 4', 2); // Placeholder: week = 2
+      if (matadorState.active) {
+        phaseBadge.textContent = `MATADOR: ${matadorState.mode.toUpperCase()}`;
+        phaseBadge.classList.remove('matador-deficit', 'matador-maintenance');
+        phaseBadge.classList.add(`matador-${matadorState.mode}`);
+      } else {
+        phaseBadge.textContent = 'Phase 4';
+        phaseBadge.classList.remove('matador-deficit', 'matador-maintenance');
+      }
     }
   }
 };
