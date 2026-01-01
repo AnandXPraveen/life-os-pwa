@@ -261,4 +261,15 @@ button:disabled:hover {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+
+  /* ===== MATADOR INDICATORS (PHASE 4 ONLY) ===== */
+.matador-deficit {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+}
+
+.matador-maintenance {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--success);
+}
 }
