@@ -15,3 +15,17 @@ const app = {
 };
 
 app.init();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const app = document.getElementById('app');
+
+  if (!app) {
+    console.error('App container not found');
+    return;
+  }
+
+  app.innerHTML = `
+    <h1>Life OS PWA</h1>
+    <p>App initialized successfully.</p>
+  `;
+});
