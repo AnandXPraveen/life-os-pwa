@@ -8,7 +8,33 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app">
+    <header id="app-header">
+      <div class="title">Life OS</div>
+      <div class="meta">
+        <span id="week-day">Week X · Day Y</span>
+        <span id="phase-badge">Phase</span>
+      </div>
+    </header>
+
+    <main id="app-main">
+      <section id="today-section">
+        <h2>Today</h2>
+        <!-- Content for today will be added here -->
+      </section>
+
+      <section id="pillars-section">
+        <h2>Pillars</h2>
+        <!-- Pillar checkboxes will be added here -->
+      </section>
+    </main>
+
+    <footer id="app-footer">
+      <button id="export-btn">Export</button>
+      <button id="settings-btn">Settings</button>
+    </footer>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>
