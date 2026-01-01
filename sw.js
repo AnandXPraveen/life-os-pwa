@@ -1,5 +1,5 @@
 // Service Worker - Offline support
-const CACHE_NAME = 'life-os-pwa-v3';
+const CACHE_NAME = 'life-os-pwa-v4';
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
