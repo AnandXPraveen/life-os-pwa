@@ -1,0 +1,264 @@
+/**
+ * Life OS PWA - Visual Polish
+ * Step 1.5: Premium Dark Mode Styling
+ * Design tokens, layout, and interactions
+ */
+
+/* ===== DESIGN TOKENS (LOCKED) ===== */
+:root {
+  /* Colors - Dark Premium Palette */
+  --bg: #0B0C0E;
+  --surface: #121418;
+  --surface-2: #181B20;
+  --text-primary: #EDEDED;
+  --text-secondary: #9AA0A6;
+  --text-muted: #6B7280;
+  --accent: #4F46E5;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+
+  /* Border & Shape */
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 28px;
+
+  /* Typography */
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.7;
+
+  /* Transitions */
+  --transition-fast: 0.12s ease;
+  --transition-normal: 0.18s ease;
+}
+
+/* ===== GLOBAL RESET & FOUNDATION ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+               Roboto, Helvetica, Arial, sans-serif;
+  line-height: var(--line-height-normal);
+  overflow-x: hidden;
+}
+
+/* ===== APP CONTAINER ===== */
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER - CALM & CONFIDENT ===== */
+#app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: var(--space-lg) var(--space-xl);
+  background: var(--surface);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--surface-2);
+}
+
+#app-header .title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: var(--text-primary);
+}
+
+#app-header .meta {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  display: flex;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+#week-day {
+  color: var(--text-secondary);
+}
+
+#phase-badge {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+/* ===== MAIN CONTENT ===== */
+#app-main {
+  flex: 1;
+  padding: var(--space-2xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+/* ===== SECTIONS - SOFT SURFACES ===== */
+section {
+  animation: fadeIn 0.2s ease-out;
+}
+
+section:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+section:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+#today-section,
+#pillars-section {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: var(--space-xl);
+  border: 1px solid var(--surface-2);
+}
+
+section h2 {
+  margin: 0 0 var(--space-lg) 0;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ===== FOOTER - MINIMAL & STICKY ===== */
+#app-footer {
+  position: sticky;
+  bottom: 0;
+  background: var(--surface);
+  padding: var(--space-lg) var(--space-xl);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  border-top: 1px solid var(--surface-2);
+}
+
+/* ===== BUTTONS - PREMIUM FEEL ===== */
+button {
+  flex: 1;
+  background: var(--surface-2);
+  color: var(--text-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  font-family: inherit;
+}
+
+button:hover {
+  background: var(--accent);
+  color: white;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--surface-2);
+}
+
+button:disabled:hover {
+  background: var(--surface-2);
+  color: var(--text-primary);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== RESPONSIVE - MOBILE FIRST ===== */
+@media (min-width: 640px) {
+  body {
+    padding: 0;
+  }
+
+  #app {
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  #app {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== SCROLLBAR (WEBKIT) ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: var(--radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
