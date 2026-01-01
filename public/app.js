@@ -6,6 +6,26 @@
 
 console.log('Life OS PWA loaded');
 
+// Cache clearing on demand
+if (new URLSearchParams(window.location.search).get('clearCache') === 'true') {
+  // Unregister service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      registrations.forEach(reg => reg.unregister());
+      console.log('Service Worker unregistered');
+    });
+  }
+  // Clear all caches
+  caches.keys().then(cacheNames => {
+    cacheNames.forEach(cacheName => {
+      caches.delete(cacheName);
+      console.log('Cache cleared:', cacheName);
+    });
+  });
+  // Redirect to clean URL
+  window.location.href = window.location.href.split('?')[0];
+}
+
 // Register Service Worker for offline support
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(err => {
